@@ -6,8 +6,8 @@ import LearnPage from './LearnPage';
 
 function LoginForm() {
     const [email, setEmail] = useState('');
-  const [password, setPassword ] = useState('');
-  const [LoggedIn, setLoggedIn ] = useState(false);
+    const [password, setPassword ] = useState('');
+    const [LoggedIn, setLoggedIn ] = useState(false);
 
       
   const handleEmailInput = (event) => {
@@ -28,20 +28,29 @@ function LoginForm() {
           password: password
         }
         //  console.log({name,email,password})
-         axios.post("http://localhost:5000/user/login", newUser)
-            .then(res => {
+        axios.post("http://localhost:5000/user/login", newUser)
+          .then(res => {
+            if (res.status != 200) {
+              alert("Login Failed. Kindly try again.")
+              setLoggedIn(false)
+              return;
+            }
+
             setLoggedIn(true)
             console.log(res.data.token)
-           })
-           .catch(err => {
-             console.log(err)
-           })
+            localStorage.setItem('authorisation_token', res.data.token)
+            return
+          })
+          .catch(err => {
+            console.log(err)
+          })
           
         }
     
 
       function handleLogout(event){
         event.preventDefault();
+        localStorage.removeItem('authorisation_token')
         setLoggedIn(false)
       }
 

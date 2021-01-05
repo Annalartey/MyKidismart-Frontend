@@ -46,8 +46,8 @@ function SignupForm() {
       }
       //  console.log({firstname,lastname,email,password,confirmpassword})
        axios.post("http://localhost:5000/user/signup", newUser).then(response => {
-           setSignedUp(true)
-          console.log("Welcome to the family")
+          setSignedUp(true)
+          alert("Welcome to the family")
      })
 
     .then (res =>{

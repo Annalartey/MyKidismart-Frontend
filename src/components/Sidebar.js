@@ -5,6 +5,7 @@ import axios from 'axios'
 
 function Sidebar () {
 
+  const [kids, setKids] = useState([]);
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
   const [dateofbirth, setDateofBirth] = useState('');
@@ -26,15 +27,34 @@ function Sidebar () {
 
 
   useEffect(() => {
-    axios.get('http://localhost:5000/kids')
-    .then((res) => {
-        console.log(res.data[0]);
-        setKidsdata(res.data[0]);
+    refreshKids()
+  }, []);
 
+  function refreshKids () {
+    let token = localStorage.getItem('authorisation_token');
+    console.log(token)
+
+    axios.get(
+      'http://localhost:5000/kids', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
     })
-    .catch(err => console.error(err))
-},
-[]);
+      .then((res) => {
+        if (res.status != 200) {
+          alert("Fetching kids failed!")
+          return
+        }
+
+        console.log(res.data);
+        setKids(res.data)
+        if (res.data.length > 0) {
+          setKidsdata(res.data[0]);
+        }
+
+      })
+      .catch(err => console.error(err))
+  }
 
 
 
@@ -49,23 +69,29 @@ function Sidebar () {
 
   function handleAddkid(event) {
     event.preventDefault();
-    const newKid ={
+    // Fetch token
+    let token = localStorage.getItem('authorisation_token');
+    const newKid = {
       firstname: firstname,
       lastname: lastname,
       dateofbirth: dateofbirth,
     }
     //  console.log({name,email,password})
-     axios.post("http://localhost:5000/kids", newKid)
+     axios.post("http://localhost:5000/kids", newKid, {
+       headers: {
+         'Authorization': `Bearer ${token}`
+        }
+      })
         .then(res => {
-        setFirstName("")
-        setLastName("")
-        setDateofBirth("")
-        console.log("Added successfully")
-       })
-       .catch(err => {
-         console.log(err)
-       })
-      
+          setFirstName("")
+          setLastName("")
+          setDateofBirth("")
+          console.log("Added successfully")
+          refreshKids()
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
 
 
@@ -80,14 +106,30 @@ function Sidebar () {
 
       <nav className="mt-4 ">
         <h3 className="text-3xl text-gray-600 font-bold uppercase tracking-wide">Kids</h3>
-        <div className="mt-2 -mx-3 text-lg text-blue-500 hover:text-blue-900 ml-2">
-          {/* <ChildComponent name={name}/> */}
-          {kidsdata.firstname} {kidsdata.lastname}
-        </div>
+        {
+          kids.length < 1 ? 
+            <div className="mt-2 -mx-3 text-lg ml-2">
+              No Kids
+            </div>
+          :
+            kids.map((kid) => {
+              return (
+                <div className="mt-2 -mx-3 text-lg text-blue-500 hover:text-blue-900 ml-2">
+                  {/* <ChildComponent name={name}/> */}
+                  {kid.firstname} {kid.lastname}
+                </div>
+              )
+            })
+        }
 
-        <input className="w-full rounded-lg mt-12 h-8" type="text" value={firstname} onChange={handleNameInput}></input>
-        <input className="w-full rounded-lg mt-12 h-8" type="text" value={lastname} onChange={handleParentNameInput}></input>
-        <input className="w-full rounded-lg mt-12 h-8" type="date" value={dateofbirth} onChange={handleDateofBirthInput}></input>
+
+        <h3 className="text-xl text-gray-600 font-medium uppercase tracking-wide mt-24">Add a new Kid</h3>
+        <input className="w-full rounded-lg mt-4 h-8" type="text" value={firstname} onChange={handleNameInput}
+          placeholder="First Name"></input>
+        <input className="w-full rounded-lg mt-4 h-8" type="text" value={lastname} onChange={handleParentNameInput}
+          placeholder="Last Name"></input>
+        <input className="w-full rounded-lg mt-4 h-8" type="date" value={dateofbirth} onChange={handleDateofBirthInput}
+          placeholder="Date of Birth"></input>
         
 
         
