@@ -8,7 +8,6 @@ function Sidebar () {
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
   const [dateofbirth, setDateofBirth] = useState('');
-  const [parentId, setParentId] = useState('');
   
 
   const handleNameInput = (event) => {
@@ -21,10 +20,6 @@ function Sidebar () {
 
   const handleDateofBirthInput = (event) => {
     setDateofBirth(event.target.value)
-  };
-
-  const handleParentId = (event) => {
-    setParentId(event.target.value)
   };
 
   const [kidsdata, setKidsdata] = useState({})
@@ -58,7 +53,6 @@ function Sidebar () {
       firstname: firstname,
       lastname: lastname,
       dateofbirth: dateofbirth,
-      parentId: parentId
     }
     //  console.log({name,email,password})
      axios.post("http://localhost:5000/kids", newKid)
@@ -66,7 +60,6 @@ function Sidebar () {
         setFirstName("")
         setLastName("")
         setDateofBirth("")
-        setParentId("")
         console.log("Added successfully")
        })
        .catch(err => {
@@ -95,7 +88,7 @@ function Sidebar () {
         <input className="w-full rounded-lg mt-12 h-8" type="text" value={firstname} onChange={handleNameInput}></input>
         <input className="w-full rounded-lg mt-12 h-8" type="text" value={lastname} onChange={handleParentNameInput}></input>
         <input className="w-full rounded-lg mt-12 h-8" type="date" value={dateofbirth} onChange={handleDateofBirthInput}></input>
-        <input className="w-full rounded-lg mt-12 h-8" type="number" value={parentId} onChange={handleParentId}></input>
+        
 
         
         <button onClick={handleAddkid}

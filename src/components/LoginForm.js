@@ -5,13 +5,13 @@ import LearnPage from './LearnPage';
 
 
 function LoginForm() {
-    const [firstname, setFirstName] = useState('');
+    const [email, setEmail] = useState('');
   const [password, setPassword ] = useState('');
   const [LoggedIn, setLoggedIn ] = useState(false);
 
       
-  const handleFirstNameInput = (event) => {
-    setFirstName(event.target.value)
+  const handleEmailInput = (event) => {
+    setEmail(event.target.value)
   };
 
       const handlePasswordInput = (event) => {
@@ -24,14 +24,14 @@ function LoginForm() {
     function handleLoggedIn(event) {
         event.preventDefault();
         const newUser ={
-          firstname: firstname,
+          email: email,
           password: password
         }
         //  console.log({name,email,password})
          axios.post("http://localhost:5000/user/login", newUser)
             .then(res => {
-            //  setLoggedIn(true)
-            console.log("Logged in successfully")
+            setLoggedIn(true)
+            console.log(res.data.token)
            })
            .catch(err => {
              console.log(err)
@@ -54,21 +54,18 @@ function LoginForm() {
                 LoggedIn
                     ?
                     <>
-                        <br></br>
-                        <h3>WELCOME, AMBITIOUS ANNA.</h3>
-                        <h4>Did you know? You are exactly what the world need to survive.</h4>
-                        <br></br>
+                      <div>
+                        <LearnPage/>
                         <button className="border-2 border-green-400 mt-10 px-2" onClick={handleLogout}>Logout</button>
-                        <LearnPage />
-
+                      </div>
                     </>
                     :
                     <>
 
                         <form className="shadow-xl mx-4 px-4 py-6 lg:mx-96 lg:px-6 lg:py-6 bg-transperent">
                             
-                            <label className="text-lg block font-bold  pb-2 mt-8">Name:</label>
-                            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-blue-300 mt-2" type="text" name='name' value={firstname} onChange={handleFirstNameInput}/>
+                            <label className="text-lg block font-bold  pb-2 mt-8">Email:</label>
+                            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-blue-300 mt-2" type="text" name='name' value={email} onChange={handleEmailInput}/>
                             <br></br>
 
                             <label className="text-lg block font-bold  pb-2 mt-8">Password:</label>
