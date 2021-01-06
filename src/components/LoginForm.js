@@ -30,7 +30,7 @@ function LoginForm() {
         //  console.log({name,email,password})
         axios.post("http://localhost:5000/user/login", newUser)
           .then(res => {
-            if (res.status != 200) {
+            if (res.status !== 200) {
               alert("Login Failed. Kindly try again.")
               setLoggedIn(false)
               return;

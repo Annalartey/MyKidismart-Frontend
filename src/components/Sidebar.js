@@ -41,7 +41,7 @@ function Sidebar () {
       }
     })
       .then((res) => {
-        if (res.status != 200) {
+        if (res.status !== 200) {
           alert("Fetching kids failed!")
           return
         }
