@@ -115,7 +115,7 @@ function Sidebar () {
             kids.map((kid) => {
               return (
                 <div className="mt-2 -mx-3 text-lg text-blue-500 hover:text-blue-900 ml-2">
-                  {/* <ChildComponent name={name}/> */}
+                   {/* <ChildComponent name={name}/>  */}
                   {kid.firstname} {kid.lastname}
                 </div>
               )

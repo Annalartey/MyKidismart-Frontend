@@ -10,8 +10,8 @@ function LearnContent() {
     useEffect(() => {
       axios.get('http://localhost:5000/kids')
       .then((res) => {
-          console.log(res.data[0]);
-          setKidsdata(res.data[0]);
+          console.log(res.data[1]);
+          setKidsdata(res.data[1]);
   
       })
       .catch(err => console.error(err))
@@ -21,7 +21,7 @@ function LearnContent() {
 
     return (
         <div className="bg-center bg-cover h-96 text-white text-xl font-bold pl-40 pt-8 " style={{backgroundImage: `url(${imgCartoon})`}}>
-            <h1 className="mb-20">Welcome {kidsdata.firstname} {kidsdata.lastname}</h1>
+            <h1 className="mb-20">Welcome Love Lartey {kidsdata.firstname} {kidsdata.lastname}</h1>
             <a href="/questionpage" className="border-2 border-white px-4 py-2">Start</a>
         </div>
     )

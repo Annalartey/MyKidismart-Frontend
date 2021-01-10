@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import ReactCardFlip from 'react-card-flip'
+import axios from 'axios'
 
 function CardFlip2() {
 
@@ -7,10 +8,18 @@ function CardFlip2() {
     const[isFlipped, setIsFlipped]= useState(false)
 
 
+    const[remark, setRemark] = useState([])
+
+
     const handleClick = ((event) => {
-        event.preventDefault()
+        axios.get("http://localhost:5000/remark").then(response => {
+                setRemark(
+                    response.data[1])},
+
+        event.preventDefault(),
         setIsFlipped(!isFlipped)
-      })
+      )
+                })
   
 
     return (
@@ -28,6 +37,9 @@ function CardFlip2() {
                 </div>
                 
             </ReactCardFlip>
+            </div>
+            <div className="border-2 p-2 mt-4">
+            <h1 className="text-3xl font-bold text-blue-500 text-center">{remark.remark}</h1>
             </div>
         </div>
     )

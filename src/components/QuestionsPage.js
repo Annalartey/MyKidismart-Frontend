@@ -24,7 +24,7 @@ function QuestionsPage() {
 
     return (
         <div className="text-center text-3xl text-gray-700">
-            <h1>WELCOME</h1>
+            <h1>WELCOME Love Lartey</h1>
             <p>This is your first question</p>
             <button className="rounded bg-gray-200 px-4 border-2 text-lg" onClick={handleButtonClick}>Go</button>
            <h1 className="text-center font bold text-4xl text-red-700 my-10 animate-pulse">{question.question}</h1> 
